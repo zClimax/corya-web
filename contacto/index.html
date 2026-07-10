@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Corya — Tecnología clara para negocios que quieren crecer</title>
-<meta name="description" content="Corya ayuda a empresas y emprendedores a mejorar su presencia digital, optimizar procesos y vender más con desarrollo web, automatización y marketing técnico.">
-<link rel="canonical" href="https://corya.com.mx/">
+<title>Contacto — Corya</title>
+<meta name="description" content="Escríbenos por WhatsApp o correo y platícanos de tu negocio. Respondemos en menos de 24 horas.">
+<link rel="canonical" href="https://corya.com.mx/contacto/">
 <script>if (location.pathname.endsWith('/index.html')) history.replaceState(null, '', location.pathname.slice(0, -10) + location.hash);</script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJDb3J5YSI+CiAgPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMjAiIGZpbGw9IiNGQUZBRkEiLz4KICA8cGF0aCBkPSJNIDYwIDE4CiAgICAgICAgICAgQSAzMCAzMCAwIDEgMCA2MCA3OCIKICAgICAgICBmaWxsPSJub25lIiBzdHJva2U9IiMxQjIyMkMiIHN0cm9rZS13aWR0aD0iOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2LDApIi8+CiAgPGNpcmNsZSBjeD0iNjYiIGN5PSI0OCIgcj0iNyIgZmlsbD0iIzNFNjY5MCIvPgo8L3N2Zz4=">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -182,7 +182,7 @@ p { color: var(--slate); margin: 0; }
 
 
 /* ---------------- Services ---------------- */
-.section { padding: 84px 0; scroll-margin-top: 76px; }
+.section { padding: 84px 0; }
 .section-head {
   max-width: 640px;
   margin: 0 0 48px;
@@ -436,86 +436,133 @@ footer .container {
   color: var(--line);
 }
 
-/* ---------------- Hero: panel de diagnóstico ---------------- */
-.btn-nav { padding: 10px 20px; font-size: 14px; }
-
-.hero-frame {
-  max-width: 480px;
+/* ---------------- Compare slider (antes / después) ---------------- */
+.compare-frame {
+  max-width: 460px;
   margin: 0 auto;
   border: 1px dashed var(--line);
   border-radius: 14px;
   padding: 26px;
 }
-.diag-panel {
-  background: var(--ink);
-  border-radius: 14px;
-  padding: 26px 26px 20px;
-  color: white;
-  box-shadow: 0 30px 60px -30px rgba(27, 34, 44, 0.45);
+.compare-window {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 30px 60px -30px rgba(27, 34, 44, 0.35);
 }
-.dp-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+.compare-before, .compare-after {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
 }
-.dp-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 14.5px;
-}
-.dp-brand svg { width: 20px; height: 20px; flex: none; }
-.dp-badge {
+.compare-after { clip-path: inset(0 0 0 50%); }
+.compare-tag {
+  position: absolute;
+  top: 10px;
   font-family: var(--font-mono);
   font-size: 10.5px;
-  letter-spacing: 0.08em;
-  color: #9DB6CC;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 4px 10px;
-  border-radius: 999px;
-  white-space: nowrap;
+  letter-spacing: 0.05em;
+  padding: 4px 9px;
+  border-radius: 4px;
+  z-index: 2;
 }
-.dp-list { list-style: none; margin: 0; padding: 6px 0 2px; }
-.dp-list li {
-  display: flex;
-  gap: 14px;
-  align-items: baseline;
-  padding: 12px 0;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.09);
+.compare-tag.before { left: 10px; background: rgba(27,34,44,0.78); color: white; }
+.compare-tag.after { right: 10px; background: var(--clear-blue); color: white; }
+.compare-divider {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: var(--ink);
+  transform: translateX(-1px);
+  pointer-events: none;
+  z-index: 3;
 }
-.dp-list li:last-child { border-bottom: none; }
-.dp-num { font-family: var(--font-mono); font-size: 12px; color: #7C97AD; }
-.dp-item strong {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 14.5px;
-  font-weight: 600;
+.compare-handle {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--ink);
   color: white;
-}
-.dp-item span { font-size: 12.5px; color: rgba(255, 255, 255, 0.55); }
-.dp-foot {
-  margin-top: 4px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 12.5px;
-  color: rgba(255, 255, 255, 0.6);
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  pointer-events: none;
+  box-shadow: 0 6px 14px -4px rgba(27,34,44,0.5);
+  z-index: 3;
 }
-.dp-foot a {
-  color: white;
-  font-weight: 600;
-  font-size: 13.5px;
-  white-space: nowrap;
+.compare-slider {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: ew-resize;
+  margin: 0;
+  z-index: 4;
 }
-.dp-foot a:hover { color: #9DB6CC; }
+.compare-caption {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--slate);
+  margin-top: 14px;
+  letter-spacing: 0.02em;
+}
+
+/* Mini-site mockups inside the comparator */
+.mini-site { width: 100%; height: 100%; padding: 14px; box-sizing: border-box; position: relative; }
+.mini-site.bad {
+  background: #fffceb;
+  font-family: 'Comic Sans MS', 'Segoe Print', cursive;
+}
+.mini-site.bad .mini-nav { display: flex; gap: 5px; margin-bottom: 10px; }
+.mini-site.bad .mini-nav span {
+  background: #ff5757; color: white; padding: 3px 8px;
+  border-radius: 2px 12px; font-size: 9px; transform: rotate(-2deg);
+}
+.mini-site.bad h4 {
+  color: #7b2ff7; font-size: 18px; margin: 6px 0 4px;
+  text-shadow: 1px 1px 0 #ffd400;
+}
+.mini-site.bad p { font-size: 9.5px; color: #444; margin: 0; }
+.mini-site.bad .mini-btn {
+  display: inline-block; margin-top: 10px;
+  background: linear-gradient(90deg,#ff5757,#ffd400);
+  color: white; padding: 7px 12px; border-radius: 16px 4px;
+  font-size: 9.5px; box-shadow: 3px 3px 0 #7b2ff7;
+}
+.mini-site.bad .mini-badge {
+  position: absolute; top: 8px; right: 8px;
+  background: #ff2d55; color: white; font-size: 8px;
+  padding: 3px 5px; border-radius: 50%; transform: rotate(10deg);
+}
+
+.mini-site.good {
+  background: var(--paper);
+  font-family: var(--font-body);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mini-site.good .mini-nav-g {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-display); font-weight: 600; font-size: 11px;
+  color: var(--ink); border-bottom: 1px solid var(--line); padding-bottom: 7px;
+}
+.mini-site.good .mini-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--ink); }
+.mini-site.good h4 { font-family: var(--font-display); font-size: 14px; color: var(--ink); margin: 2px 0; }
+.mini-site.good p { font-size: 9.5px; color: var(--slate); max-width: 24ch; margin: 0; }
+.mini-site.good .mini-btn-g {
+  align-self: flex-start; background: var(--clear-blue); color: white;
+  font-size: 9.5px; padding: 6px 13px; border-radius: 18px;
+  font-family: var(--font-body); font-weight: 600;
+}
 
 /* ---------------- Case study ---------------- */
 .case-section { background: var(--paper-dim); }
@@ -562,6 +609,20 @@ footer .container {
 .case-visual .cv-key { color: #9DB6CC; }
 .case-visual .cv-val { color: white; }
 
+
+/* ---------------- Contacto ---------------- */
+.contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px 0;
+  flex-wrap: wrap;
+}
+.contact-row + .contact-row { border-top: 1px solid var(--line); }
+.contact-row h3 { margin-bottom: 4px; }
+.contact-row p { font-size: 14.5px; }
+.contact-email { font-family: var(--font-mono); color: var(--ink); }
 </style>
 </head>
 <body>
@@ -583,167 +644,50 @@ footer .container {
       <a href="/#servicios">Qué hacemos</a>
       <a href="/#proceso">Cómo trabajamos</a>
       <a href="/contacto/">Contacto</a>
-      <a href="/diagnostico/" class="btn btn-primary btn-nav">Diagnóstico gratis</a>
     </nav>
   </div>
 </header>
 
 <main>
-  <!-- HERO -->
-  <section class="hero">
+  <section class="diag-hero">
     <div class="container">
-      <div class="hero-copy">
-        <span class="eyebrow">Corya · Tecnología para negocios</span>
-        <h1>Tecnología clara para negocios que quieren crecer</h1>
-        <p class="lead">Ayudamos a empresas y emprendedores a mejorar su presencia digital, optimizar sus procesos y generar más oportunidades de venta — con desarrollo web, automatización y marketing técnico.</p>
-        <div class="hero-actions">
-          <a href="/diagnostico/" class="btn btn-primary">Agenda tu diagnóstico gratis</a>
-          <a href="/#servicios" class="btn btn-ghost">Ver qué hacemos</a>
-        </div>
-      </div>
-
-      <!-- Elemento de firma: panel de diagnóstico -->
-      <div class="hero-frame bp-frame">
-        <span class="bp-mark tl">+</span>
-        <span class="bp-mark tr">+</span>
-        <span class="bp-mark bl">+</span>
-        <span class="bp-mark br">+</span>
-
-        <div class="diag-panel">
-          <div class="dp-head">
-            <span class="dp-brand">
-              <svg viewBox="0 0 96 96" aria-hidden="true"><path d="M 66 18 A 30 30 0 1 0 66 78" fill="none" stroke="white" stroke-width="9" stroke-linecap="round"/><circle cx="66" cy="48" r="7" fill="#9DB6CC"/></svg>
-              Tu diagnóstico
-            </span>
-            <span class="dp-badge">SIN COSTO</span>
-          </div>
-          <ul class="dp-list">
-            <li>
-              <span class="dp-num">01</span>
-              <div class="dp-item"><strong>Presencia digital</strong><span>¿Te encuentran cuando te buscan?</span></div>
-            </li>
-            <li>
-              <span class="dp-num">02</span>
-              <div class="dp-item"><strong>Mensaje</strong><span>¿Se entiende qué ofreces en cinco segundos?</span></div>
-            </li>
-            <li>
-              <span class="dp-num">03</span>
-              <div class="dp-item"><strong>Proceso de venta</strong><span>¿Cuántos pasos hay hasta que te contactan?</span></div>
-            </li>
-            <li>
-              <span class="dp-num">04</span>
-              <div class="dp-item"><strong>Seguimiento</strong><span>¿Qué pasa después del primer mensaje?</span></div>
-            </li>
-            <li>
-              <span class="dp-num">05</span>
-              <div class="dp-item"><strong>Datos</strong><span>¿Sabes qué te trae clientes y qué no?</span></div>
-            </li>
-          </ul>
-          <div class="dp-foot">
-            <span>Esto revisamos — y te decimos qué mejorar primero.</span>
-            <a href="/diagnostico/">Agéndalo →</a>
-          </div>
-        </div>
-      </div>
+      <span class="eyebrow">Contacto</span>
+      <h1>Hablemos de tu negocio</h1>
+      <p class="lead">Escríbenos por el medio que prefieras. Respondemos en menos de 24 horas.</p>
     </div>
   </section>
 
-  <!-- SERVICIOS -->
-  <section class="section" id="servicios">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Qué hacemos</span>
-        <h2>Tres frentes, un mismo enfoque: resultados</h2>
-        <p>Creamos soluciones simples, funcionales y enfocadas en resultados — sin complicar de más lo que tu negocio necesita.</p>
-      </div>
+  <section class="diag-wrap">
+    <a href="/" class="back-link">← Volver a Corya</a>
 
-      <div class="card-grid">
-        <article class="card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
-          </div>
-          <h3>Desarrollo Web</h3>
-          <p>Diseñamos y desarrollamos sitios web, landing pages y sistemas digitales adaptados a cada negocio.</p>
-          <ul>
-            <li>Landing pages</li>
-            <li>Sitios web corporativos</li>
-            <li>Formularios de contacto</li>
-            <li>Paneles administrativos</li>
-            <li>Sistemas web personalizados</li>
-            <li>Integraciones básicas</li>
-          </ul>
-        </article>
+    <div class="diag-card bp-frame">
+      <span class="bp-mark tl">+</span>
+      <span class="bp-mark tr">+</span>
+      <span class="bp-mark bl">+</span>
+      <span class="bp-mark br">+</span>
 
-        <article class="card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.9 4.9l2.8 2.8"/><path d="M16.3 16.3l2.8 2.8"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.9 19.1l2.8-2.8"/><path d="M16.3 7.7l2.8-2.8"/></svg>
-          </div>
-          <h3>Automatización</h3>
-          <p>Reducimos tareas repetitivas y mejoramos el flujo de trabajo entre tus herramientas digitales.</p>
-          <ul>
-            <li>Automatización de procesos</li>
-            <li>Formularios conectados</li>
-            <li>Reportes básicos</li>
-            <li>Integración con CRM</li>
-            <li>Flujos de seguimiento</li>
-            <li>Optimización de tareas internas</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-4"/></svg>
-          </div>
-          <h3>Marketing Técnico</h3>
-          <p>Configuración de Meta Business para convertir visitas en clientes, con datos claros para decidir.</p>
-          <ul>
-            <li>Configuración de campañas</li>
-            <li>Pixel y eventos</li>
-            <li>Análisis de KPIs</li>
-            <li>Optimización de embudos</li>
-            <li>Configuración de CRM</li>
-            <li>Generación de leads</li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROCESO -->
-  <section class="section process" id="proceso">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Cómo trabajamos</span>
-        <h2>De diagnóstico a resultado, sin vueltas</h2>
-        <p>Un proceso corto y sin letra chica, pensado para cualquier tipo de negocio.</p>
-      </div>
-
-      <div class="process-steps">
-        <div class="step">
-          <span class="num">01</span>
-          <h3>Diagnóstico gratuito</h3>
-          <p>Revisamos tu presencia digital y tus procesos actuales en una primera sesión, sin costo.</p>
+      <div class="contact-row">
+        <div>
+          <h3>WhatsApp</h3>
+          <p>La vía más rápida para platicar tu caso.</p>
         </div>
-        <div class="step">
-          <span class="num">02</span>
-          <h3>Propuesta con plan claro</h3>
-          <p>Te mostramos exactamente qué haríamos, en qué orden y qué esperar — antes de cobrarte un peso.</p>
-        </div>
-        <div class="step">
-          <span class="num">03</span>
-          <h3>Implementación y soporte</h3>
-          <p>Construimos, lanzamos y seguimos cerca para ajustar lo que el negocio real vaya pidiendo.</p>
-        </div>
+        <a class="btn btn-primary" href="https://wa.me/5216673492446?text=Hola%20Corya%2C%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n." target="_blank" rel="noopener">Escribir por WhatsApp</a>
       </div>
-    </div>
-  </section>
 
-  <!-- CTA -->
-  <section class="section">
-    <div class="container">
-      <div class="cta-banner">
-        <h2>¿Listo para ver claro tu siguiente paso?</h2>
-        <a href="/diagnostico/" class="btn btn-primary">Agenda tu diagnóstico gratis</a>
+      <div class="contact-row">
+        <div>
+          <h3>Correo</h3>
+          <p class="contact-email" id="correo-corya">jorgeespinoza@corya.com.mx</p>
+        </div>
+        <button type="button" class="btn btn-ghost" id="btn-copiar">Copiar correo</button>
+      </div>
+
+      <div class="contact-row">
+        <div>
+          <h3>Diagnóstico gratis</h3>
+          <p>¿Prefieres que revisemos primero tu presencia digital?</p>
+        </div>
+        <a class="btn btn-ghost" href="/diagnostico/">Agendar diagnóstico</a>
       </div>
     </div>
   </section>
@@ -763,7 +707,6 @@ footer .container {
     <div class="footer-links">
       <a href="/#servicios">Qué hacemos</a>
       <a href="/#proceso">Cómo trabajamos</a>
-      <a href="/diagnostico/">Diagnóstico gratis</a>
       <a href="/contacto/">Contacto</a>
     </div>
     <span class="footer-meta">© 2026 Corya</span>
@@ -771,24 +714,27 @@ footer .container {
 </footer>
 
 <script>
-// Desplazamiento suave a secciones sin ensuciar la URL con #
-document.querySelectorAll('a[href^="/#"]').forEach((a) => {
-  a.addEventListener('click', (e) => {
-    const destino = document.getElementById(a.getAttribute('href').slice(2));
-    if (!destino) return;
-    e.preventDefault();
-    destino.scrollIntoView({ behavior: 'smooth' });
-    history.replaceState(null, '', location.pathname);
+// Copiar el correo al portapapeles (con respaldo para contextos sin HTTPS)
+function copiarTexto(texto) {
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(texto);
+  const ta = document.createElement('textarea');
+  ta.value = texto;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } finally { document.body.removeChild(ta); }
+  return Promise.resolve();
+}
+
+document.getElementById('btn-copiar').addEventListener('click', () => {
+  const correo = document.getElementById('correo-corya').textContent.trim();
+  copiarTexto(correo).then(() => {
+    const btn = document.getElementById('btn-copiar');
+    btn.textContent = 'Copiado ✓';
+    setTimeout(() => { btn.textContent = 'Copiar correo'; }, 2000);
   });
 });
-// Si se llega con #seccion desde otra página, desplazarse y limpiar la URL
-if (location.hash) {
-  const destino = document.getElementById(location.hash.slice(1));
-  if (destino) {
-    destino.scrollIntoView();
-    history.replaceState(null, '', location.pathname);
-  }
-}
 </script>
 </body>
 </html>
