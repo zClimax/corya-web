@@ -434,133 +434,86 @@ footer .container {
   color: var(--line);
 }
 
-/* ---------------- Compare slider (antes / después) ---------------- */
-.compare-frame {
-  max-width: 460px;
+/* ---------------- Hero: panel de diagnóstico ---------------- */
+.btn-nav { padding: 10px 20px; font-size: 14px; }
+
+.hero-frame {
+  max-width: 480px;
   margin: 0 auto;
   border: 1px dashed var(--line);
   border-radius: 14px;
   padding: 26px;
 }
-.compare-window {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: 8px;
-  overflow: hidden;
-  background: white;
-  box-shadow: 0 30px 60px -30px rgba(27, 34, 44, 0.35);
-}
-.compare-before, .compare-after {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-.compare-after { clip-path: inset(0 0 0 50%); }
-.compare-tag {
-  position: absolute;
-  top: 10px;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.05em;
-  padding: 4px 9px;
-  border-radius: 4px;
-  z-index: 2;
-}
-.compare-tag.before { left: 10px; background: rgba(27,34,44,0.78); color: white; }
-.compare-tag.after { right: 10px; background: var(--clear-blue); color: white; }
-.compare-divider {
-  position: absolute;
-  top: 0; bottom: 0;
-  left: 50%;
-  width: 2px;
+.diag-panel {
   background: var(--ink);
-  transform: translateX(-1px);
-  pointer-events: none;
-  z-index: 3;
-}
-.compare-handle {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  background: var(--ink);
+  border-radius: 14px;
+  padding: 26px 26px 20px;
   color: white;
+  box-shadow: 0 30px 60px -30px rgba(27, 34, 44, 0.45);
+}
+.dp-head {
   display: flex;
   align-items: center;
-  justify-content: center;
-  transform: translate(-50%, -50%);
-  font-size: 13px;
-  pointer-events: none;
-  box-shadow: 0 6px 14px -4px rgba(27,34,44,0.5);
-  z-index: 3;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
-.compare-slider {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: ew-resize;
-  margin: 0;
-  z-index: 4;
+.dp-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14.5px;
 }
-.compare-caption {
-  text-align: center;
+.dp-brand svg { width: 20px; height: 20px; flex: none; }
+.dp-badge {
   font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--slate);
-  margin-top: 14px;
-  letter-spacing: 0.02em;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: #9DB6CC;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
 }
-
-/* Mini-site mockups inside the comparator */
-.mini-site { width: 100%; height: 100%; padding: 14px; box-sizing: border-box; position: relative; }
-.mini-site.bad {
-  background: #fffceb;
-  font-family: 'Comic Sans MS', 'Segoe Print', cursive;
-}
-.mini-site.bad .mini-nav { display: flex; gap: 5px; margin-bottom: 10px; }
-.mini-site.bad .mini-nav span {
-  background: #ff5757; color: white; padding: 3px 8px;
-  border-radius: 2px 12px; font-size: 9px; transform: rotate(-2deg);
-}
-.mini-site.bad h4 {
-  color: #7b2ff7; font-size: 18px; margin: 6px 0 4px;
-  text-shadow: 1px 1px 0 #ffd400;
-}
-.mini-site.bad p { font-size: 9.5px; color: #444; margin: 0; }
-.mini-site.bad .mini-btn {
-  display: inline-block; margin-top: 10px;
-  background: linear-gradient(90deg,#ff5757,#ffd400);
-  color: white; padding: 7px 12px; border-radius: 16px 4px;
-  font-size: 9.5px; box-shadow: 3px 3px 0 #7b2ff7;
-}
-.mini-site.bad .mini-badge {
-  position: absolute; top: 8px; right: 8px;
-  background: #ff2d55; color: white; font-size: 8px;
-  padding: 3px 5px; border-radius: 50%; transform: rotate(10deg);
-}
-
-.mini-site.good {
-  background: var(--paper);
-  font-family: var(--font-body);
+.dp-list { list-style: none; margin: 0; padding: 6px 0 2px; }
+.dp-list li {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  gap: 14px;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.09);
 }
-.mini-site.good .mini-nav-g {
-  display: flex; justify-content: space-between; align-items: center;
-  font-family: var(--font-display); font-weight: 600; font-size: 11px;
-  color: var(--ink); border-bottom: 1px solid var(--line); padding-bottom: 7px;
+.dp-list li:last-child { border-bottom: none; }
+.dp-num { font-family: var(--font-mono); font-size: 12px; color: #7C97AD; }
+.dp-item strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: white;
 }
-.mini-site.good .mini-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--ink); }
-.mini-site.good h4 { font-family: var(--font-display); font-size: 14px; color: var(--ink); margin: 2px 0; }
-.mini-site.good p { font-size: 9.5px; color: var(--slate); max-width: 24ch; margin: 0; }
-.mini-site.good .mini-btn-g {
-  align-self: flex-start; background: var(--clear-blue); color: white;
-  font-size: 9.5px; padding: 6px 13px; border-radius: 18px;
-  font-family: var(--font-body); font-weight: 600;
+.dp-item span { font-size: 12.5px; color: rgba(255, 255, 255, 0.55); }
+.dp-foot {
+  margin-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.6);
 }
+.dp-foot a {
+  color: white;
+  font-weight: 600;
+  font-size: 13.5px;
+  white-space: nowrap;
+}
+.dp-foot a:hover { color: #9DB6CC; }
 
 /* ---------------- Case study ---------------- */
 .case-section { background: var(--paper-dim); }
@@ -627,7 +580,8 @@ footer .container {
     <nav class="nav-links">
       <a href="#servicios">Qué hacemos</a>
       <a href="#proceso">Cómo trabajamos</a>
-      <a href="diagnostico.html" class="btn btn-primary">Agenda tu diagnóstico gratis</a>
+      <a href="mailto:jorgeespinoza@corya.com.mx">Contacto</a>
+      <a href="/diagnostico/" class="btn btn-primary btn-nav">Diagnóstico gratis</a>
     </nav>
   </div>
 </header>
@@ -641,46 +595,54 @@ footer .container {
         <h1>Tecnología clara para negocios que quieren crecer</h1>
         <p class="lead">Ayudamos a empresas y emprendedores a mejorar su presencia digital, optimizar sus procesos y generar más oportunidades de venta — con desarrollo web, automatización y marketing técnico.</p>
         <div class="hero-actions">
-          <a href="diagnostico.html" class="btn btn-primary">Agenda tu diagnóstico gratis</a>
+          <a href="/diagnostico/" class="btn btn-primary">Agenda tu diagnóstico gratis</a>
           <a href="#servicios" class="btn btn-ghost">Ver qué hacemos</a>
         </div>
       </div>
 
-      <!-- Elemento de firma: comparador antes / después, arrastrable -->
-      <div>
-        <div class="compare-frame bp-frame">
-          <span class="bp-tag">FIG. 01 — LANDING PAGE</span>
-          <span class="bp-mark tl">+</span>
-          <span class="bp-mark tr">+</span>
-          <span class="bp-mark bl">+</span>
-          <span class="bp-mark br">+</span>
+      <!-- Elemento de firma: panel de diagnóstico -->
+      <div class="hero-frame bp-frame">
+        <span class="bp-tag">FIG. 01 — DIAGNÓSTICO</span>
+        <span class="bp-mark tl">+</span>
+        <span class="bp-mark tr">+</span>
+        <span class="bp-mark bl">+</span>
+        <span class="bp-mark br">+</span>
 
-          <div class="compare-window">
-            <div class="compare-before">
-              <div class="mini-site bad">
-                <span class="mini-badge">¡PROMO!</span>
-                <div class="mini-nav"><span>Inicio</span><span>Nosotros!!</span><span>Contacto</span></div>
-                <h4>¡¡Bienvenidos a mi negocio!!</h4>
-                <p>Somos la mejor empresa de la ciudad y ofrecemos calidad al mejor precio del mercado nacional...</p>
-                <div class="mini-btn">CLIC AQUI YA!!</div>
-              </div>
-            </div>
-            <div class="compare-after">
-              <div class="mini-site good">
-                <div class="mini-nav-g"><span>corya</span><span class="mini-dot"></span></div>
-                <h4>Tecnología clara para negocios</h4>
-                <p>Un mensaje, un objetivo, un siguiente paso.</p>
-                <div class="mini-btn-g">Agenda tu diagnóstico</div>
-              </div>
-            </div>
-            <div class="compare-divider"></div>
-            <div class="compare-handle">↔</div>
-            <span class="compare-tag before">ANTES</span>
-            <span class="compare-tag after">CON CORYA</span>
-            <input type="range" class="compare-slider" min="0" max="100" value="50" aria-label="Comparar antes y después">
+        <div class="diag-panel">
+          <div class="dp-head">
+            <span class="dp-brand">
+              <svg viewBox="0 0 96 96" aria-hidden="true"><path d="M 66 18 A 30 30 0 1 0 66 78" fill="none" stroke="white" stroke-width="9" stroke-linecap="round"/><circle cx="66" cy="48" r="7" fill="#9DB6CC"/></svg>
+              Tu diagnóstico
+            </span>
+            <span class="dp-badge">15 MIN · GRATIS</span>
+          </div>
+          <ul class="dp-list">
+            <li>
+              <span class="dp-num">01</span>
+              <div class="dp-item"><strong>Presencia digital</strong><span>¿Te encuentran cuando te buscan?</span></div>
+            </li>
+            <li>
+              <span class="dp-num">02</span>
+              <div class="dp-item"><strong>Mensaje</strong><span>¿Se entiende qué ofreces en cinco segundos?</span></div>
+            </li>
+            <li>
+              <span class="dp-num">03</span>
+              <div class="dp-item"><strong>Proceso de venta</strong><span>¿Cuántos pasos hay hasta que te contactan?</span></div>
+            </li>
+            <li>
+              <span class="dp-num">04</span>
+              <div class="dp-item"><strong>Seguimiento</strong><span>¿Qué pasa después del primer mensaje?</span></div>
+            </li>
+            <li>
+              <span class="dp-num">05</span>
+              <div class="dp-item"><strong>Datos</strong><span>¿Sabes qué te trae clientes y qué no?</span></div>
+            </li>
+          </ul>
+          <div class="dp-foot">
+            <span>Esto revisamos — y te decimos qué mejorar primero.</span>
+            <a href="/diagnostico/">Agéndalo →</a>
           </div>
         </div>
-        <p class="compare-caption">Arrastra para comparar — esto es, literal, a lo que nos dedicamos.</p>
       </div>
     </div>
   </section>
@@ -783,7 +745,7 @@ footer .container {
     <div class="container">
       <div class="cta-banner">
         <h2>¿Listo para ver claro tu siguiente paso?</h2>
-        <a href="diagnostico.html" class="btn btn-primary">Agenda tu diagnóstico gratis</a>
+        <a href="/diagnostico/" class="btn btn-primary">Agenda tu diagnóstico gratis</a>
       </div>
     </div>
   </section>
@@ -803,26 +765,12 @@ footer .container {
     <div class="footer-links">
       <a href="#servicios">Qué hacemos</a>
       <a href="#proceso">Cómo trabajamos</a>
-      <a href="diagnostico.html">Diagnóstico gratis</a>
+      <a href="/diagnostico/">Diagnóstico gratis</a>
+      <a href="mailto:jorgeespinoza@corya.com.mx">jorgeespinoza@corya.com.mx</a>
     </div>
     <span class="footer-meta">© 2026 Corya</span>
   </div>
 </footer>
 
-<script>
-  (function () {
-    var slider = document.querySelector('.compare-slider');
-    if (!slider) return;
-    var after = document.querySelector('.compare-after');
-    var divider = document.querySelector('.compare-divider');
-    var handle = document.querySelector('.compare-handle');
-    slider.addEventListener('input', function () {
-      var v = slider.value;
-      after.style.clipPath = 'inset(0 0 0 ' + v + '%)';
-      divider.style.left = v + '%';
-      handle.style.left = v + '%';
-    });
-  })();
-</script>
 </body>
 </html>
