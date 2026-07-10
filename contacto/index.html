@@ -624,6 +624,23 @@ footer .container {
 .contact-row p { font-size: 14.5px; }
 .contact-email { font-family: var(--font-mono); color: var(--ink); }
 </style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '910039968041471');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=910039968041471&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -726,6 +743,10 @@ function copiarTexto(texto) {
   try { document.execCommand('copy'); } finally { document.body.removeChild(ta); }
   return Promise.resolve();
 }
+
+document.querySelector('a[href^="https://wa.me/"]').addEventListener('click', () => {
+  if (window.fbq) fbq('track', 'Contact');
+});
 
 document.getElementById('btn-copiar').addEventListener('click', () => {
   const correo = document.getElementById('correo-corya').textContent.trim();
