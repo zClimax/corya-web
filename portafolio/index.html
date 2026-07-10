@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agenda tu diagnóstico gratis — Corya</title>
-<meta name="description" content="Revisamos la presencia digital y los procesos de tu negocio, y te decimos qué mejorar primero. Sin costo, sin compromiso.">
-<link rel="canonical" href="https://corya.com.mx/diagnostico/">
+<title>Portafolio — Corya</title>
+<meta name="description" content="Proyectos y demostraciones en vivo de Corya: sitios web, landing pages y sistemas hechos a la medida.">
+<link rel="canonical" href="https://corya.com.mx/portafolio/">
 <script>if (location.pathname.endsWith('/index.html')) history.replaceState(null, '', location.pathname.slice(0, -10) + location.hash);</script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJDb3J5YSI+CiAgPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMjAiIGZpbGw9IiNGQUZBRkEiLz4KICA8cGF0aCBkPSJNIDYwIDE4CiAgICAgICAgICAgQSAzMCAzMCAwIDEgMCA2MCA3OCIKICAgICAgICBmaWxsPSJub25lIiBzdHJva2U9IiMxQjIyMkMiIHN0cm9rZS13aWR0aD0iOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2LDApIi8+CiAgPGNpcmNsZSBjeD0iNjYiIGN5PSI0OCIgcj0iNyIgZmlsbD0iIzNFNjY5MCIvPgo8L3N2Zz4=">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -609,6 +609,50 @@ footer .container {
 .case-visual .cv-key { color: #9DB6CC; }
 .case-visual .cv-val { color: white; }
 
+
+/* ---------------- Portafolio ---------------- */
+.port-thumb {
+  aspect-ratio: 16 / 10;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
+}
+.port-thumb.marea {
+  background: linear-gradient(145deg, #0E2A3A 0%, #1D4A5C 70%, #2E6B77 100%);
+  color: #F7F3EC;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+}
+.port-thumb.corya {
+  background: var(--ink);
+  color: white;
+}
+.port-thumb.next {
+  background: var(--paper-dim);
+  color: var(--slate);
+  border: 1px dashed var(--line);
+}
+.card .btn { align-self: flex-start; margin-top: auto; }
+
+/* ---------------- Contacto ---------------- */
+.contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px 0;
+  flex-wrap: wrap;
+}
+.contact-row + .contact-row { border-top: 1px solid var(--line); }
+.contact-row h3 { margin-bottom: 4px; }
+.contact-row p { font-size: 14.5px; }
+.contact-email { font-family: var(--font-mono); color: var(--ink); }
 </style>
 <!-- Meta Pixel Code -->
 <script>
@@ -655,64 +699,46 @@ src="https://www.facebook.com/tr?id=910039968041471&ev=PageView&noscript=1"
 <main>
   <section class="diag-hero">
     <div class="container">
-      <span class="eyebrow">Diagnóstico gratis</span>
-      <h1>Agenda tu diagnóstico gratis</h1>
-      <p class="lead">Revisamos tu presencia digital y tus procesos actuales, y te decimos con claridad qué te conviene mejorar primero. Sin costo, sin compromiso.</p>
-
-      <div class="trust-row">
-        <div class="trust-item"><strong>1 a 1</strong>sesión personalizada</div>
-        <div class="trust-item"><strong>$0</strong>costo</div>
-        <div class="trust-item"><strong>24 h</strong>tiempo de respuesta</div>
-      </div>
+      <span class="eyebrow">Portafolio</span>
+      <h1>Trabajo que habla por sí mismo</h1>
+      <p class="lead">Proyectos y demostraciones en vivo. Todo lo que ves aquí — incluido este sitio — está construido por Corya.</p>
     </div>
   </section>
 
-  <section class="diag-wrap">
-    <a href="/" class="back-link">← Volver a Corya</a>
+  <section class="section" style="padding-top: 12px;">
+    <div class="container">
+      <div class="card-grid">
+        <article class="card">
+          <div class="port-thumb marea">Marea Brava</div>
+          <h3>Marea Brava · Restaurante</h3>
+          <p>Landing de demostración para un restaurante de mariscos: carta, horarios y reservas directas por WhatsApp.</p>
+          <ul>
+            <li>Diseño a la medida del giro</li>
+            <li>Reservas por WhatsApp</li>
+            <li>Lista para recibir campañas</li>
+          </ul>
+          <a class="btn btn-ghost" href="/demos/restaurante/">Ver demo en vivo →</a>
+        </article>
 
-    <div class="diag-card bp-frame">
-      <span class="bp-mark tl">+</span>
-      <span class="bp-mark tr">+</span>
-      <span class="bp-mark bl">+</span>
-      <span class="bp-mark br">+</span>
-      <form id="diag-form">
-        <div class="field">
-          <label for="nombre">Nombre</label>
-          <input type="text" id="nombre" name="nombre" required placeholder="¿Cómo te llamas?">
-        </div>
+        <article class="card">
+          <div class="port-thumb corya">corya</div>
+          <h3>corya.com.mx · Este sitio</h3>
+          <p>Nuestra propia casa: landing, agenda de diagnóstico, página de contacto y medición de conversiones.</p>
+          <ul>
+            <li>URLs limpias y HTTPS</li>
+            <li>Píxel de Meta con eventos</li>
+            <li>$0 de costo mensual de operación</li>
+          </ul>
+          <a class="btn btn-ghost" href="/">Verlo →</a>
+        </article>
 
-        <div class="field">
-          <label for="empresa">Empresa o negocio</label>
-          <input type="text" id="empresa" name="empresa" required placeholder="Nombre de tu negocio">
-        </div>
-
-        <div class="field">
-          <label for="tipoNegocio">Tipo de negocio</label>
-          <select id="tipoNegocio" name="tipoNegocio" required>
-            <option value="" disabled selected>Selecciona una opción</option>
-            <option value="Comercio / retail">Comercio / retail</option>
-            <option value="Servicios profesionales">Servicios profesionales</option>
-            <option value="Restaurante / alimentos">Restaurante / alimentos</option>
-            <option value="Salud / bienestar">Salud / bienestar</option>
-            <option value="Educación">Educación</option>
-            <option value="Tecnología">Tecnología</option>
-            <option value="Otro">Otro</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="contacto">WhatsApp o correo</label>
-          <input type="text" id="contacto" name="contacto" required placeholder="Dónde te contactamos">
-        </div>
-
-        <div class="field">
-          <label for="mensaje">¿Qué te gustaría mejorar? <span style="font-weight:400; color:var(--slate);">(opcional)</span></label>
-          <textarea id="mensaje" name="mensaje" rows="3" placeholder="Ej. mi página no genera clientes, pierdo tiempo con tareas repetidas..."></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary btn-block">Enviar por WhatsApp</button>
-      </form>
-      <p class="diag-note">Al enviar, se abre WhatsApp con tus datos listos para mandar. No compartimos tu información con nadie más.</p>
+        <article class="card">
+          <div class="port-thumb next">¿Tu negocio?</div>
+          <h3>El siguiente puede ser tuyo</h3>
+          <p>Cuéntanos qué necesita tu negocio y te decimos exactamente cómo lo haríamos, sin costo y sin compromiso.</p>
+          <a class="btn btn-primary" href="/diagnostico/">Agenda tu diagnóstico gratis</a>
+        </article>
+      </div>
     </div>
   </section>
 </main>
@@ -739,43 +765,5 @@ src="https://www.facebook.com/tr?id=910039968041471&ev=PageView&noscript=1"
   </div>
 </footer>
 
-<script>
-// Corya — comportamiento compartido
-
-// Formulario de diagnóstico: arma un mensaje de WhatsApp con los datos capturados
-function initDiagForm() {
-  const form = document.getElementById('diag-form');
-  if (!form) return;
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const nombre = form.nombre.value.trim();
-    const empresa = form.empresa.value.trim();
-    const tipoNegocio = form.tipoNegocio.value;
-    const contacto = form.contacto.value.trim();
-    const mensaje = form.mensaje.value.trim();
-
-    const partes = [
-      `Hola Corya, quiero agendar mi diagnóstico gratis.`,
-      `Nombre: ${nombre}`,
-      `Empresa: ${empresa}`,
-      `Tipo de negocio: ${tipoNegocio}`,
-      `Contacto: ${contacto}`,
-    ];
-    if (mensaje) partes.push(`Qué quiero mejorar: ${mensaje}`);
-
-    const texto = encodeURIComponent(partes.join('\n'));
-    const numero = '5216673492446';
-    if (window.fbq) fbq('track', 'Lead');
-    window.open(`https://wa.me/${numero}?text=${texto}`, '_blank');
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  initDiagForm();
-});
-
-</script>
 </body>
 </html>
