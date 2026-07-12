@@ -121,13 +121,53 @@ p { color: var(--slate); margin: 0; }
   transition: color 0.15s ease;
 }
 .nav-links a:not(.btn):hover { color: var(--ink); }
-.nav-toggle { display: none; }
+.btn-nav { padding: 10px 20px; font-size: 14px; }
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.nav-toggle:hover { border-color: var(--clear-blue); }
+.nav-toggle:focus-visible { outline: 3px solid var(--clear-blue); outline-offset: 2px; }
+.nav-toggle svg { width: 20px; height: 20px; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; fill: none; }
+.nav-toggle .icono-cerrar { display: none; }
+.menu-abierto .nav-toggle .icono-abrir { display: none; }
+.menu-abierto .nav-toggle .icono-cerrar { display: block; }
 
 @media (max-width: 760px) {
-  .nav-links a:not(.btn) { display: none; }
-  .nav-toggle {
-    display: inline-flex;
+  .nav-toggle { display: inline-flex; }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 76px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 6px 24px 20px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 26px 40px -30px rgba(27, 34, 44, 0.4);
   }
+  .menu-abierto .nav-links { display: flex; }
+  .nav-links a:not(.btn) {
+    display: block;
+    padding: 15px 2px;
+    font-size: 16px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-links .btn { margin-top: 16px; width: 100%; }
 }
 
 /* ---------------- Buttons ---------------- */
@@ -310,7 +350,7 @@ footer .container {
 }
 .footer-logo { width: 110px; opacity: 0.9; }
 .footer-meta { font-size: 13.5px; color: var(--slate); font-family: var(--font-mono); }
-.footer-links { display: flex; gap: 20px; font-size: 14px; color: var(--slate); }
+.footer-links { display: flex; gap: 12px 20px; font-size: 14px; color: var(--slate); flex-wrap: wrap; }
 .footer-links a:hover { color: var(--clear-blue-dark); }
 
 /* ---------------- Diagnostico page ---------------- */
@@ -633,6 +673,12 @@ footer .container {
   background: var(--ink);
   color: white;
 }
+.port-thumb.taskflow {
+  background: var(--clear-blue-dark);
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+}
 .port-thumb.next {
   background: var(--paper-dim);
   color: var(--slate);
@@ -687,12 +733,17 @@ src="https://www.facebook.com/tr?id=910039968041471&ev=PageView&noscript=1"
   <text x="112" y="63" font-family="'Space Grotesk', 'Segoe UI', sans-serif" font-size="42" font-weight="600" letter-spacing="0.5" fill="#1B222C">corya</text>
 </svg>
     </a>
-    <nav class="nav-links">
+    <nav class="nav-links" id="menu-principal">
       <a href="/#servicios">Qué hacemos</a>
       <a href="/#proceso">Cómo trabajamos</a>
       <a href="/portafolio/">Portafolio</a>
       <a href="/contacto/">Contacto</a>
+      <a href="/diagnostico/" class="btn btn-primary btn-nav">Diagnóstico gratis</a>
     </nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir o cerrar el menú">
+      <svg class="icono-abrir" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg class="icono-cerrar" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
   </div>
 </header>
 
@@ -708,6 +759,18 @@ src="https://www.facebook.com/tr?id=910039968041471&ev=PageView&noscript=1"
   <section class="section" style="padding-top: 12px;">
     <div class="container">
       <div class="card-grid">
+        <article class="card">
+          <div class="port-thumb taskflow">&gt;_ taskflow-api</div>
+          <h3>TaskFlow · API REST</h3>
+          <p>API profesional de gestión de proyectos y tareas: autenticación JWT, arquitectura en capas y 42 pruebas automatizadas.</p>
+          <ul>
+            <li>TypeScript estricto + PostgreSQL</li>
+            <li>Consola de demostración interactiva</li>
+            <li>Código abierto en GitHub</li>
+          </ul>
+          <a class="btn btn-ghost" href="/portafolio/taskflow/">Ver el proyecto →</a>
+        </article>
+
         <article class="card">
           <div class="port-thumb marea">Marea Brava</div>
           <h3>Marea Brava · Restaurante</h3>
@@ -765,5 +828,30 @@ src="https://www.facebook.com/tr?id=910039968041471&ev=PageView&noscript=1"
   </div>
 </footer>
 
+<script>
+// Menú móvil desplegable
+(function () {
+  const barra = document.querySelector('.navbar');
+  const boton = document.querySelector('.nav-toggle');
+  if (!barra || !boton) return;
+  function cerrar() {
+    barra.classList.remove('menu-abierto');
+    boton.setAttribute('aria-expanded', 'false');
+  }
+  boton.addEventListener('click', function () {
+    const abierto = barra.classList.toggle('menu-abierto');
+    boton.setAttribute('aria-expanded', String(abierto));
+  });
+  barra.querySelectorAll('.nav-links a').forEach(function (a) {
+    a.addEventListener('click', cerrar);
+  });
+  document.addEventListener('click', function (e) {
+    if (!barra.contains(e.target)) cerrar();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') cerrar();
+  });
+})();
+</script>
 </body>
 </html>

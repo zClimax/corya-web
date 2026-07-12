@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaskFlow API — Portafolio Corya</title>
+<meta name="description" content="TaskFlow API: API REST profesional de gestión de proyectos y tareas construida por Corya — TypeScript, PostgreSQL, autenticación JWT y 42 pruebas automatizadas.">
+<link rel="canonical" href="https://corya.com.mx/portafolio/taskflow/">
+<script>if (location.pathname.endsWith('/index.html')) history.replaceState(null, '', location.pathname.slice(0, -10) + location.hash);</script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJDb3J5YSI+CiAgPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMjAiIGZpbGw9IiNGQUZBRkEiLz4KICA8cGF0aCBkPSJNIDYwIDE4CiAgICAgICAgICAgQSAzMCAzMCAwIDEgMCA2MCA3OCIKICAgICAgICBmaWxsPSJub25lIiBzdHJva2U9IiMxQjIyMkMiIHN0cm9rZS13aWR0aD0iOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2LDApIi8+CiAgPGNpcmNsZSBjeD0iNjYiIGN5PSI0OCIgcj0iNyIgZmlsbD0iIzNFNjY5MCIvPgo8L3N2Zz4=">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Corya — design tokens
+   ========================================================================== */
+:root {
+  --ink: #1B222C;
+  --clear-blue: #3E6690;
+  --clear-blue-dark: #2C4C6B;
+  --paper: #FAFAFA;
+  --paper-dim: #F1F1F0;
+  --slate: #5C6470;
+  --growth: #3E6690;
+  --growth-dark: #2C4C6B;
+  --line: #E4E4E2;
+
+  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --radius: 14px;
+  --max-w: 1120px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg { max-width: 100%; display: block; }
+
+a { color: inherit; text-decoration: none; }
+
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--clear-blue-dark);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.eyebrow::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--growth);
+  display: inline-block;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+h1 { font-size: clamp(2.2rem, 4.4vw, 3.6rem); line-height: 1.08; }
+h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); line-height: 1.15; }
+h3 { font-size: 1.2rem; }
+
+p { color: var(--slate); margin: 0; }
+
+/* ---------------- Navbar ---------------- */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(250, 250, 250, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.navbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 76px;
+}
+.nav-logo { width: 132px; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.nav-links a:not(.btn) {
+  font-size: 15px;
+  color: var(--slate);
+  transition: color 0.15s ease;
+}
+.nav-links a:not(.btn):hover { color: var(--ink); }
+.btn-nav { padding: 10px 20px; font-size: 14px; }
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.nav-toggle:hover { border-color: var(--clear-blue); }
+.nav-toggle:focus-visible { outline: 3px solid var(--clear-blue); outline-offset: 2px; }
+.nav-toggle svg { width: 20px; height: 20px; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; fill: none; }
+.nav-toggle .icono-cerrar { display: none; }
+.menu-abierto .nav-toggle .icono-abrir { display: none; }
+.menu-abierto .nav-toggle .icono-cerrar { display: block; }
+
+@media (max-width: 760px) {
+  .nav-toggle { display: inline-flex; }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 76px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 6px 24px 20px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 26px 40px -30px rgba(27, 34, 44, 0.4);
+  }
+  .menu-abierto .nav-links { display: flex; }
+  .nav-links a:not(.btn) {
+    display: block;
+    padding: 15px 2px;
+    font-size: 16px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-links .btn { margin-top: 16px; width: 100%; }
+}
+
+/* ---------------- Buttons ---------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.btn:focus-visible {
+  outline: 3px solid var(--clear-blue);
+  outline-offset: 2px;
+}
+.btn-primary {
+  background: var(--growth);
+  color: white;
+  box-shadow: 0 6px 16px -8px rgba(27, 34, 44, 0.35);
+}
+.btn-primary:hover { background: var(--growth-dark); transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+}
+.btn-ghost:hover { border-color: var(--clear-blue); color: var(--clear-blue-dark); }
+
+/* ---------------- Secciones base ---------------- */
+.section { padding: 84px 0; scroll-margin-top: 76px; }
+.section-head {
+  max-width: 640px;
+  margin: 0 0 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 860px) {
+  .card-grid { grid-template-columns: 1fr; }
+}
+.card {
+  position: relative;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -24px rgba(27, 34, 44, 0.25);
+}
+.card ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.card ul li {
+  font-size: 14.5px;
+  color: var(--slate);
+  padding-left: 20px;
+  position: relative;
+}
+.card ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--growth);
+}
+
+/* ---------------- Hero del caso ---------------- */
+.diag-hero {
+  padding: 72px 0 24px;
+  text-align: center;
+}
+.diag-hero .eyebrow { justify-content: center; }
+.diag-hero h1 { max-width: 20ch; margin: 18px auto 14px; }
+.diag-hero p.lead { max-width: 54ch; margin: 0 auto; }
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.trust-row {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 44px;
+  flex-wrap: wrap;
+}
+.trust-item {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--slate);
+  text-align: center;
+}
+.trust-item strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--ink);
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--slate);
+  margin-bottom: 28px;
+}
+.back-link:hover { color: var(--clear-blue-dark); }
+
+/* ---------------- Case study ---------------- */
+.case-section { background: var(--paper-dim); }
+.case-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 44px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 44px;
+  align-items: center;
+}
+@media (max-width: 860px) {
+  .case-card { grid-template-columns: 1fr; padding: 32px; }
+}
+.case-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.case-chip {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--slate);
+}
+.case-list { margin: 18px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.case-list li { font-size: 14.5px; color: var(--slate); padding-left: 20px; position: relative; }
+.case-list li::before {
+  content: '';
+  position: absolute; left: 0; top: 8px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--clear-blue);
+}
+.case-visual {
+  background: var(--ink);
+  border-radius: 12px;
+  padding: 28px;
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.7;
+  overflow-x: auto;
+}
+.case-visual .cv-line { color: rgba(255,255,255,0.55); }
+.case-visual .cv-key { color: #9DB6CC; }
+.case-visual .cv-val { color: white; }
+
+/* ---------------- Consola de demostración ---------------- */
+.consola {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .consola { grid-template-columns: 1fr; }
+}
+.ep-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ep-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  background: white;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink);
+  text-align: left;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.ep-btn:hover { border-color: var(--clear-blue); }
+.ep-btn:focus-visible { outline: 3px solid var(--clear-blue); outline-offset: 2px; }
+.ep-btn.activo {
+  border-color: var(--clear-blue-dark);
+  background: #EFF3F7;
+}
+.ep-metodo {
+  flex: none;
+  width: 52px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 3px 0;
+  border-radius: 5px;
+  color: white;
+}
+.ep-metodo.get { background: var(--clear-blue); }
+.ep-metodo.post { background: var(--ink); }
+.ep-ruta { word-break: break-all; }
+.ep-nota {
+  font-size: 13px;
+  color: var(--slate);
+  margin-top: 14px;
+}
+.terminal {
+  background: var(--ink);
+  border-radius: 12px;
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.7;
+  overflow: hidden;
+}
+.terminal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+}
+.terminal-cuerpo {
+  margin: 0;
+  padding: 18px 20px 22px;
+  overflow-x: auto;
+  white-space: pre;
+  min-height: 320px;
+}
+.t-cmd { color: rgba(255, 255, 255, 0.85); }
+.t-dim { color: rgba(255, 255, 255, 0.45); }
+.t-ok { color: #8FBF9F; }
+.t-err { color: #D08C8C; }
+.t-key { color: #9DB6CC; }
+
+/* ---------------- Arquitectura (sección oscura) ---------------- */
+.process {
+  background: var(--ink);
+  color: white;
+}
+.process .section-head p { color: rgba(255,255,255,0.65); }
+.process .eyebrow { color: #7C97AD; }
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+}
+@media (max-width: 860px) {
+  .process-steps { grid-template-columns: 1fr; }
+}
+.step {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+.step .num {
+  font-family: var(--font-mono);
+  color: var(--growth);
+  font-size: 14px;
+  display: block;
+  margin-bottom: 14px;
+}
+.step h3 { color: white; margin-bottom: 10px; }
+.step p { color: rgba(255,255,255,0.65); font-size: 14.5px; }
+.step .mono-chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: #9DB6CC;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 6px;
+  padding: 3px 9px;
+  margin-top: 14px;
+}
+
+/* ---------------- CTA banner ---------------- */
+.cta-banner {
+  background: linear-gradient(135deg, var(--clear-blue) 0%, var(--clear-blue-dark) 100%);
+  border-radius: 24px;
+  padding: 56px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.cta-banner h2 { color: white; max-width: 22ch; }
+.cta-banner .btn-primary { background: white; color: var(--ink); box-shadow: none; }
+.cta-banner .btn-primary:hover { background: var(--paper); }
+
+/* ---------------- Footer ---------------- */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 48px 0;
+}
+footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.footer-logo { width: 110px; opacity: 0.9; }
+.footer-meta { font-size: 13.5px; color: var(--slate); font-family: var(--font-mono); }
+.footer-links { display: flex; gap: 12px 20px; font-size: 14px; color: var(--slate); flex-wrap: wrap; }
+.footer-links a:hover { color: var(--clear-blue-dark); }
+</style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '910039968041471');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=910039968041471&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+</head>
+<body>
+
+<header class="navbar">
+  <div class="container">
+    <a href="/" aria-label="Corya — inicio">
+      <svg class="nav-logo" viewBox="0 0 340 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Corya">
+  <g>
+    <path d="M 76 12
+             A 36 36 0 1 0 76 84"
+          fill="none" stroke="#1B222C" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="78" cy="48" r="7.5" fill="#3E6690"/>
+  </g>
+  <text x="112" y="63" font-family="'Space Grotesk', 'Segoe UI', sans-serif" font-size="42" font-weight="600" letter-spacing="0.5" fill="#1B222C">corya</text>
+</svg>
+    </a>
+    <nav class="nav-links" id="menu-principal">
+      <a href="/#servicios">Qué hacemos</a>
+      <a href="/#proceso">Cómo trabajamos</a>
+      <a href="/portafolio/">Portafolio</a>
+      <a href="/contacto/">Contacto</a>
+      <a href="/diagnostico/" class="btn btn-primary btn-nav">Diagnóstico gratis</a>
+    </nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir o cerrar el menú">
+      <svg class="icono-abrir" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg class="icono-cerrar" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="diag-hero">
+    <div class="container">
+      <span class="eyebrow">Portafolio · Proyecto propio</span>
+      <h1>TaskFlow API</h1>
+      <p class="lead">API REST profesional para gestión de proyectos y tareas en equipo: autenticación segura, arquitectura limpia y pruebas automatizadas. Diseñada, construida y documentada de punta a punta por Corya.</p>
+
+      <div class="hero-actions">
+        <a href="#consola" class="btn btn-primary" id="ir-consola">Probar la consola</a>
+        <a href="https://github.com/zClimax/taskflow-api" class="btn btn-ghost" target="_blank" rel="noopener">Ver el código en GitHub</a>
+      </div>
+
+      <div class="trust-row">
+        <div class="trust-item"><strong>25+</strong>endpoints REST</div>
+        <div class="trust-item"><strong>42</strong>pruebas automatizadas</div>
+        <div class="trust-item"><strong>0</strong>errores en TypeScript estricto</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <a href="/portafolio/" class="back-link">← Volver al portafolio</a>
+      <div class="case-card">
+        <div>
+          <span class="eyebrow">Qué es</span>
+          <h2 style="margin: 14px 0 12px;">Un backend como los que usan los productos serios</h2>
+          <p>TaskFlow organiza proyectos, tareas y equipos — al estilo de herramientas como Trello o Linear — y demuestra cómo construimos sistemas a la medida: cada pieza validada, probada y lista para producción.</p>
+          <ul class="case-list">
+            <li>Registro e inicio de sesión con JWT y rotación de refresh tokens</li>
+            <li>Proyectos y tareas con filtros, búsqueda y paginación</li>
+            <li>Comentarios y roles de equipo (administrador / miembro)</li>
+            <li>Validación de datos en cada endpoint con Zod</li>
+            <li>Límite de peticiones y headers de seguridad en producción</li>
+            <li>Documentación interactiva OpenAPI / Swagger</li>
+          </ul>
+          <div class="case-stack">
+            <span class="case-chip">Node.js 22</span>
+            <span class="case-chip">TypeScript 5</span>
+            <span class="case-chip">Express 5</span>
+            <span class="case-chip">PostgreSQL 17</span>
+            <span class="case-chip">Prisma 7</span>
+            <span class="case-chip">Zod</span>
+            <span class="case-chip">Vitest</span>
+            <span class="case-chip">GitHub Actions</span>
+            <span class="case-chip">Railway</span>
+          </div>
+        </div>
+        <div class="case-visual">
+<span class="cv-line">// Toda respuesta sigue el mismo contrato</span>
+{
+  <span class="cv-key">"data"</span>: [ <span class="cv-val">…</span> ],
+  <span class="cv-key">"pagination"</span>: {
+    <span class="cv-key">"total"</span>: <span class="cv-val">42</span>,
+    <span class="cv-key">"page"</span>: <span class="cv-val">1</span>,
+    <span class="cv-key">"limit"</span>: <span class="cv-val">20</span>,
+    <span class="cv-key">"totalPages"</span>: <span class="cv-val">3</span>
+  }
+}
+
+<span class="cv-line">// Y todo error se responde con claridad</span>
+{
+  <span class="cv-key">"error"</span>: {
+    <span class="cv-key">"status"</span>: <span class="cv-val">400</span>,
+    <span class="cv-key">"code"</span>: <span class="cv-val">"VALIDATION_ERROR"</span>,
+    <span class="cv-key">"message"</span>: <span class="cv-val">"Los datos enviados no son válidos"</span>
+  }
+}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section case-section" id="consola">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Consola de demostración</span>
+        <h2>Pruébala sin instalar nada</h2>
+        <p>Elige un endpoint y observa la petición y la respuesta tal como las entrega la API. Es una simulación en tu navegador con las respuestas reales del sistema; el servicio completo corre sobre Node.js y PostgreSQL.</p>
+      </div>
+
+      <div class="consola">
+        <div>
+          <div class="ep-lista" role="tablist" aria-label="Endpoints de demostración"></div>
+          <p class="ep-nota">El código fuente completo, la documentación y la guía de despliegue están en <a href="https://github.com/zClimax/taskflow-api" target="_blank" rel="noopener" style="color: var(--clear-blue-dark); font-weight: 600;">github.com/zClimax/taskflow-api</a>.</p>
+        </div>
+        <div class="terminal">
+          <div class="terminal-head">
+            <span>taskflow-api — demostración</span>
+            <span id="terminal-status"></span>
+          </div>
+          <pre class="terminal-cuerpo" id="terminal-cuerpo"></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section process">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Cómo está construida</span>
+        <h2>Arquitectura en tres capas</h2>
+        <p>La lógica no vive amontonada en el endpoint: cada capa tiene una sola responsabilidad, se prueba por separado y se puede cambiar sin romper el resto.</p>
+      </div>
+
+      <div class="process-steps">
+        <div class="step">
+          <span class="num">01</span>
+          <h3>Controller</h3>
+          <p>Recibe la petición HTTP, extrae los datos ya validados y regresa la respuesta. Cero lógica de negocio.</p>
+          <span class="mono-chip">tasks.controller.ts</span>
+        </div>
+        <div class="step">
+          <span class="num">02</span>
+          <h3>Service</h3>
+          <p>Aplica las reglas del negocio: ¿este usuario es miembro del proyecto? ¿puede borrar este comentario?</p>
+          <span class="mono-chip">tasks.service.ts</span>
+        </div>
+        <div class="step">
+          <span class="num">03</span>
+          <h3>Repository</h3>
+          <p>Habla con la base de datos a través de Prisma, con consultas tipadas de extremo a extremo.</p>
+          <span class="mono-chip">tasks.repository.ts</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Seguridad y calidad</span>
+        <h2>Lo que no se ve, también está cuidado</h2>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Seguridad</h3>
+          <ul>
+            <li>Contraseñas cifradas con bcrypt</li>
+            <li>Tokens de acceso de vida corta con rotación de refresh</li>
+            <li>Cierre de sesión en todos los dispositivos</li>
+            <li>Headers de seguridad (Helmet) y CORS configurado</li>
+            <li>Límite de peticiones global y reforzado en login</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Calidad</h3>
+          <ul>
+            <li>TypeScript en modo estricto, sin excepciones</li>
+            <li>Validación de entrada con Zod en cada ruta</li>
+            <li>42 pruebas: unitarias y de integración contra base real</li>
+            <li>Integración continua en GitHub Actions</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Operación</h3>
+          <ul>
+            <li>Despliegue automatizado en Railway</li>
+            <li>Migraciones de base de datos versionadas</li>
+            <li>Endpoint de salud para monitoreo</li>
+            <li>Registro de peticiones con tiempos de respuesta</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="cta-banner">
+        <h2>¿Tu negocio necesita un sistema con esta solidez?</h2>
+        <a href="/diagnostico/" class="btn btn-primary">Agenda tu diagnóstico gratis</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <svg class="footer-logo" viewBox="0 0 340 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Corya">
+  <g>
+    <path d="M 76 12
+             A 36 36 0 1 0 76 84"
+          fill="none" stroke="#1B222C" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="78" cy="48" r="7.5" fill="#3E6690"/>
+  </g>
+  <text x="112" y="63" font-family="'Space Grotesk', 'Segoe UI', sans-serif" font-size="42" font-weight="600" letter-spacing="0.5" fill="#1B222C">corya</text>
+</svg>
+    <div class="footer-links">
+      <a href="/#servicios">Qué hacemos</a>
+      <a href="/#proceso">Cómo trabajamos</a>
+      <a href="/portafolio/">Portafolio</a>
+      <a href="/contacto/">Contacto</a>
+      <a href="/privacidad/">Aviso de privacidad</a>
+    </div>
+    <span class="footer-meta">© 2026 Corya</span>
+  </div>
+</footer>
+
+<script>
+// Menú móvil desplegable
+(function () {
+  const barra = document.querySelector('.navbar');
+  const boton = document.querySelector('.nav-toggle');
+  if (!barra || !boton) return;
+  function cerrar() {
+    barra.classList.remove('menu-abierto');
+    boton.setAttribute('aria-expanded', 'false');
+  }
+  boton.addEventListener('click', function () {
+    const abierto = barra.classList.toggle('menu-abierto');
+    boton.setAttribute('aria-expanded', String(abierto));
+  });
+  barra.querySelectorAll('.nav-links a').forEach(function (a) {
+    a.addEventListener('click', cerrar);
+  });
+  document.addEventListener('click', function (e) {
+    if (!barra.contains(e.target)) cerrar();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') cerrar();
+  });
+})();
+
+// Consola de demostración: peticiones y respuestas reales de la API, simuladas en el navegador
+(function () {
+  const ENDPOINTS = [
+    {
+      metodo: 'GET',
+      ruta: '/health',
+      etiqueta: '/health',
+      status: '200 OK',
+      ok: true,
+      curl: "curl https://taskflow.demo/health",
+      respuesta: {
+        status: 'ok',
+        timestamp: '2026-07-11T17:42:08.512Z',
+        uptime: 86340,
+        environment: 'production',
+        version: '0.1.0'
+      }
+    },
+    {
+      metodo: 'POST',
+      ruta: '/api/v1/auth/login',
+      etiqueta: '/auth/login',
+      status: '200 OK',
+      ok: true,
+      curl: "curl -X POST https://taskflow.demo/api/v1/auth/login \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"email\":\"ana@empresa.mx\",\"password\":\"********\"}'",
+      respuesta: {
+        data: {
+          user: {
+            id: 'ckz1x9a4b0001',
+            name: 'Ana Robles',
+            email: 'ana@empresa.mx',
+            role: 'MEMBER'
+          },
+          accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9…',
+          refreshToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9…'
+        }
+      }
+    },
+    {
+      metodo: 'GET',
+      ruta: '/api/v1/tasks?status=IN_PROGRESS&limit=2',
+      etiqueta: '/tasks?status=…',
+      status: '200 OK',
+      ok: true,
+      curl: "curl https://taskflow.demo/api/v1/tasks?status=IN_PROGRESS\\&limit=2 \\\n  -H \"Authorization: Bearer <accessToken>\"",
+      respuesta: {
+        data: [
+          {
+            id: 'ckz1xb2f80007',
+            title: 'Diseñar el tablero de reportes',
+            status: 'IN_PROGRESS',
+            priority: 'HIGH',
+            dueDate: '2026-07-18',
+            assignee: { name: 'Ana Robles' }
+          },
+          {
+            id: 'ckz1xb2f8000b',
+            title: 'Conectar el módulo de facturación',
+            status: 'IN_PROGRESS',
+            priority: 'URGENT',
+            dueDate: '2026-07-14',
+            assignee: { name: 'Luis Vega' }
+          }
+        ],
+        pagination: { total: 7, page: 1, limit: 2, totalPages: 4 }
+      }
+    },
+    {
+      metodo: 'POST',
+      ruta: '/api/v1/projects',
+      etiqueta: '/projects',
+      status: '201 Created',
+      ok: true,
+      curl: "curl -X POST https://taskflow.demo/api/v1/projects \\\n  -H \"Authorization: Bearer <accessToken>\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"name\":\"Sitio web 2026\",\"description\":\"Rediseño completo\"}'",
+      respuesta: {
+        data: {
+          id: 'ckz1xc8e2000f',
+          name: 'Sitio web 2026',
+          description: 'Rediseño completo',
+          ownerId: 'ckz1x9a4b0001',
+          createdAt: '2026-07-11T17:45:31.204Z'
+        }
+      }
+    },
+    {
+      metodo: 'GET',
+      ruta: '/api/v1/users/me (sin token)',
+      etiqueta: '/users/me — error controlado',
+      status: '401 Unauthorized',
+      ok: false,
+      curl: "curl https://taskflow.demo/api/v1/users/me",
+      respuesta: {
+        error: {
+          status: 401,
+          code: 'UNAUTHORIZED',
+          message: 'Se requiere un token de acceso para este recurso'
+        }
+      }
+    }
+  ];
+
+  const lista = document.querySelector('.ep-lista');
+  const cuerpo = document.getElementById('terminal-cuerpo');
+  const estado = document.getElementById('terminal-status');
+  if (!lista || !cuerpo) return;
+
+  function escapar(texto) {
+    return texto.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function colorearJson(json) {
+    return escapar(json).replace(/"([^"]+)":/g, '<span class="t-key">"$1"</span>:');
+  }
+
+  function mostrar(indice) {
+    const ep = ENDPOINTS[indice];
+    lista.querySelectorAll('.ep-btn').forEach(function (b, i) {
+      b.classList.toggle('activo', i === indice);
+      b.setAttribute('aria-selected', String(i === indice));
+    });
+    const clase = ep.ok ? 't-ok' : 't-err';
+    estado.innerHTML = '<span class="' + clase + '">HTTP ' + escapar(ep.status) + '</span>';
+    cuerpo.innerHTML =
+      '<span class="t-dim">$</span> <span class="t-cmd">' + escapar(ep.curl) + '</span>\n\n' +
+      '<span class="' + clase + '">HTTP/1.1 ' + escapar(ep.status) + '</span>\n' +
+      colorearJson(JSON.stringify(ep.respuesta, null, 2));
+  }
+
+  ENDPOINTS.forEach(function (ep, i) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'ep-btn';
+    btn.setAttribute('role', 'tab');
+    btn.innerHTML = '<span class="ep-metodo ' + ep.metodo.toLowerCase() + '">' + ep.metodo + '</span><span class="ep-ruta">' + escapar(ep.etiqueta) + '</span>';
+    btn.addEventListener('click', function () { mostrar(i); });
+    lista.appendChild(btn);
+  });
+
+  mostrar(0);
+})();
+
+// Desplazamiento suave al ancla de la consola sin ensuciar la URL
+document.getElementById('ir-consola').addEventListener('click', function (e) {
+  const destino = document.getElementById('consola');
+  if (!destino) return;
+  e.preventDefault();
+  destino.scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+</body>
+</html>
